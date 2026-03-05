@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "home": "Home",
+    "product": "Product",
+    "technology": "Technology",
+    "solutions": "Solutions",
+    "about": "About",
+    "cases": "Cases",
+    "partners": "Partners",
+    "data": "Data",
+    "contact": "Contact",
+    "feedback": "Feedback"
+  },
+  "common": {
+    "localeSwitch": "中文",
+    "login": "Log in",
+    "signup": "Sign up",
+    "logout": "Log out",
+    "learnMore": "Learn more",
+    "contactUs": "Contact us"
+  },
+  "home": {
+    "title": "Wei Suan",
+    "subtitle": "Edge Micro Compute Center — Data Stays Local",
+    "tagline1": "Your data stays in your own infrastructure. Safer and more reliable.",
+    "tagline2": "No cloud upload. You stay in control.",
+    "tagline3": "Deployed on your premises. Data never leaves your network.",
+    "heroCta": "Explore product",
+    "valueTitle": "Core value",
+    "slogan": "Wei Suan technology, billion-level compute for free. Data stays local, compute at your side."
+  }
+}
