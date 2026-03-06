@@ -40,7 +40,18 @@ Implicit usage means you're using any Next.js functionality and everything "just
 
 ## Deploying to Netlify
 
-Click the button below to deploy this template to your Netlify account.
+### 方式一：Git 连接（推荐）
+
+Next.js 16 在 Netlify 上需在云端构建，本地 `netlify deploy` 会因 Blobs 环境报错，建议用 Git 连接后自动部署：
+
+1. 打开 [Netlify 项目](https://app.netlify.com/projects/miacroai-web-next) → **Site configuration** → **Build & deploy** → **Continuous deployment** → **Link repository**。
+2. 选择 **GitHub**，授权后选择仓库 `bistuwangqiyuan/miacroaiwebnextnetlify`，分支选 `main`。
+3. 构建设置保持默认即可（Netlify 会识别 Next.js；`netlify.toml` 中已配置 `command = "npm run build"`、`publish = ".next"`）。
+4. 保存后，**推送代码到 main** 即可触发生产部署。之后也可用 `netlify deploy --prod --trigger` 在本地触发一次构建而不上传文件。
+
+当前站点已创建并已关联本地目录（`netlify status` 可查看），生产 URL：**https://miacroai-web-next.netlify.app**（需完成上述 Git 连接并成功部署后即可访问）。
+
+### 方式二：一键部署模板
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/next-platform-starter)
 
