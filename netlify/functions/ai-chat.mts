@@ -119,6 +119,12 @@ export default async (req: Request, context: Context) => {
 
   const providers: Array<() => Promise<{ reply: string; suggestedLinks?: { url: string; label: string }[] } | null>> = [];
 
+  const glmKey = Netlify.env.get('GLM_API_KEY');
+  if (glmKey) {
+    providers.push(() =>
+      callOpenAICompatible('https://open.bigmodel.cn/api/paas/v4/chat/completions', glmKey, 'glm-4-flash', sys, message)
+    );
+  }
   const deepseekKey = Netlify.env.get('DEEPSEEK_API_KEY');
   if (deepseekKey) {
     providers.push(() => callDeepSeek(message, deepseekKey, locale));
@@ -127,6 +133,12 @@ export default async (req: Request, context: Context) => {
   if (moonshotKey) {
     providers.push(() =>
       callOpenAICompatible('https://api.moonshot.cn/v1/chat/completions', moonshotKey, 'moonshot-v1-8k', sys, message)
+    );
+  }
+  const tongyiKey = Netlify.env.get('TONGYI_API_KEY');
+  if (tongyiKey) {
+    providers.push(() =>
+      callOpenAICompatible('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', tongyiKey, 'qwen-turbo', sys, message)
     );
   }
 
