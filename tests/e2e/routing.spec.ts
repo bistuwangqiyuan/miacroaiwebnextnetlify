@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { LOCALES, PAGES, BRAND, pageUrl, NEXT_404_MARKER } from './_helpers';
+import { LOCALES, PAGES, BRAND, pageUrl, NOT_FOUND_TITLE, TITLE_BRAND } from './_helpers';
 
 test.describe('Routing & i18n', () => {
   test('root redirects to a locale-prefixed path', async ({ request }) => {
@@ -14,7 +14,9 @@ test.describe('Routing & i18n', () => {
       const res = await request.get(`/${locale}`);
       expect(res.status()).toBe(200);
       const body = await res.text();
-      expect(body).not.toContain(NEXT_404_MARKER);
+      // A genuine 404 would title the document "404: This page could not be found".
+      expect(body).not.toContain(`<title>${NOT_FOUND_TITLE}`);
+      expect(body).toMatch(TITLE_BRAND);
     });
   }
 
@@ -26,8 +28,7 @@ test.describe('Routing & i18n', () => {
         await expect(page.locator('header')).toBeVisible();
         await expect(page.locator('header')).toContainText(BRAND[locale]);
         await expect(page.locator('main')).toBeVisible();
-        const html = await page.content();
-        expect(html).not.toContain(NEXT_404_MARKER);
+        await expect(page).toHaveTitle(TITLE_BRAND);
       });
     }
   }

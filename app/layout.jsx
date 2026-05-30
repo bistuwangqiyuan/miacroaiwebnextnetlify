@@ -1,3 +1,4 @@
+import { headers } from 'next/headers';
 import '../styles/globals.css';
 
 export const metadata = {
@@ -7,9 +8,11 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const headerList = await headers();
+  const lang = headerList.get('x-locale') === 'en' ? 'en' : 'zh';
   return (
-    <html lang="zh" suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.svg" sizes="any" />
       </head>

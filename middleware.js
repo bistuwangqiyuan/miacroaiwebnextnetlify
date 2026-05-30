@@ -39,7 +39,9 @@ export function middleware(request) {
     return res;
   }
 
-  const response = NextResponse.next();
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-locale', localeInPath);
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
