@@ -1,5 +1,5 @@
 import type { Context, Config } from '@netlify/functions';
-import { neon } from '@netlify/neon';
+import { getSql } from './db-client.mts';
 
 export const config: Config = {
   path: '/api/data',
@@ -27,7 +27,7 @@ export default async (req: Request, _context: Context) => {
   const offset = (page - 1) * pageSize;
 
   try {
-    const sql = neon();
+    const sql = getSql();
     let total = 0;
     let rows: Record<string, unknown>[] = [];
 
@@ -56,7 +56,7 @@ export default async (req: Request, _context: Context) => {
     });
   } catch (err) {
     return new Response(
-      JSON.stringify({ rows: [], total: 0, message: (err as Error).message }),
+      JSON.stringify({ rows: [], total: 0, message: err instanceof Error ? err.message : String(err) }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   }

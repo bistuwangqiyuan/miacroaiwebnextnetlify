@@ -85,6 +85,12 @@ function parseReply(content: string): AiReply {
       // keep full reply
     }
   }
+  // Strip stray model artifacts (empty JSON arrays, partial suggestedLinks fragments)
+  reply = reply
+    .replace(/\{\s*"suggestedLinks"\s*:\s*\[\s*\]\s*\}/g, '')
+    .replace(/\[\s*\]\s*$/g, '')
+    .replace(/\[\s*\]/g, '')
+    .trim();
   return { reply: reply || content, suggestedLinks: links };
 }
 

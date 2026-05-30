@@ -1,5 +1,5 @@
 import type { Context, Config } from '@netlify/functions';
-import { neon } from '@netlify/neon';
+import { getSql } from './db-client.mts';
 
 export const config: Config = {
   path: '/api/feedback',
@@ -34,7 +34,7 @@ export default async (req: Request, _context: Context) => {
   }
 
   try {
-    const sql = neon();
+    const sql = getSql();
     await sql(
       `INSERT INTO feedback (name, email, message, created_at) VALUES ($1, $2, $3, NOW())`,
       [name, email || null, message]
@@ -45,7 +45,7 @@ export default async (req: Request, _context: Context) => {
     });
   } catch (err) {
     return new Response(
-      JSON.stringify({ error: 'Database error', message: (err as Error).message }),
+      JSON.stringify({ error: 'Database error', message: err instanceof Error ? err.message : String(err) }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
