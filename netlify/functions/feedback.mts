@@ -1,5 +1,5 @@
 import type { Context, Config } from '@netlify/functions';
-import { getSql } from './db-client.mts';
+import { getSql } from '../../lib/db-client.mts';
 
 export const config: Config = {
   path: '/api/feedback',

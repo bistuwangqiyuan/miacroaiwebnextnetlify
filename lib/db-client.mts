@@ -1,11 +1,7 @@
 import { neon } from '@netlify/neon';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import pg from 'pg';
-
-const FUNCTION_DIR = path.dirname(fileURLToPath(import.meta.url));
-const PROJECT_ROOT = path.join(FUNCTION_DIR, '..', '..');
 
 type SqlFn = {
   (query: string, params?: unknown[]): Promise<unknown[]>;
@@ -13,7 +9,12 @@ type SqlFn = {
 };
 
 function resolveDatabaseUrl(): string | undefined {
-  const roots = [PROJECT_ROOT, process.cwd(), path.join(process.cwd(), '..'), path.join(process.cwd(), '../..')];
+  const roots = [
+    process.cwd(),
+    path.join(process.cwd(), '..'),
+    path.join(process.cwd(), '../..'),
+    path.join(process.cwd(), '../../..'),
+  ];
   for (const root of roots) {
     try {
       const local = fs.readFileSync(path.join(root, '.netlify/db-url'), 'utf8').trim();
