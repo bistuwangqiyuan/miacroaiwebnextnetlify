@@ -16,7 +16,9 @@ Main paths (locale=en): /en home, /en/product product, /en/technology technology
 When answering, if it helps to direct the user to a page, include a JSON array at the end of your reply: {"suggestedLinks":[{"url":"/en/product","label":"Product"}]}. Output it only once; use /zh or /en paths.
 `;
 
-async function callDeepSeek(body: string, apiKey: string, locale: string): Promise<{ reply: string; links?: { url: string; label: string }[] } | null> {
+type AiReply = { reply: string; suggestedLinks?: { url: string; label: string }[] };
+
+async function callDeepSeek(body: string, apiKey: string, locale: string): Promise<AiReply | null> {
   const sys = locale === 'zh' ? SITE_CONTEXT_ZH : SITE_CONTEXT_EN;
   const res = await fetch('https://api.deepseek.com/v1/chat/completions', {
     method: 'POST',
@@ -45,7 +47,7 @@ async function callOpenAICompatible(
   model: string,
   sys: string,
   body: string
-): Promise<{ reply: string; links?: { url: string; label: string }[] } | null> {
+): Promise<AiReply | null> {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -67,7 +69,7 @@ async function callOpenAICompatible(
   return parseReply(content);
 }
 
-function parseReply(content: string): { reply: string; links?: { url: string; label: string }[] } {
+function parseReply(content: string): AiReply {
   const trim = content.trim();
   const jsonMatch = trim.match(/\{\s*"suggestedLinks"\s*:\s*\[[\s\S]*?\]\s*\}/);
   let links: { url: string; label: string }[] | undefined;

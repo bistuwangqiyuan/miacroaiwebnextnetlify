@@ -14,8 +14,15 @@ export function middleware(request) {
     return NextResponse.next();
   }
 
-  // Netlify forms and identity
-  if (pathname === '/__forms.html' || pathname.startsWith('/.netlify/')) {
+  // API routes (Netlify Functions) and Netlify forms/identity must not be locale-redirected
+  if (
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/quotes') ||
+    pathname === '/sitemap.xml' ||
+    pathname === '/robots.txt' ||
+    pathname === '/__forms.html' ||
+    pathname.startsWith('/.netlify/')
+  ) {
     return NextResponse.next();
   }
 
@@ -41,6 +48,6 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon\\.svg|images|.*\\.svg|.*\\.png|.*\\.jpg|.*\\.ico).*)',
+    '/((?!api|quotes|sitemap.xml|robots.txt|_next/static|_next/image|favicon\\.svg|images|.*\\.svg|.*\\.png|.*\\.jpg|.*\\.ico).*)',
   ],
 };

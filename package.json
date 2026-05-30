@@ -7,7 +7,9 @@
     "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:e2e": "playwright test",
+    "report": "node scripts/gen-report.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.0",
@@ -23,6 +25,7 @@
     "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "autoprefixer": "^10.4.20",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "9.39.3",
